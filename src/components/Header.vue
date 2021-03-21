@@ -2,8 +2,13 @@
   <nav>
     <!--SideBar-->
     <v-navigation-drawer app v-model="drawer">
-      <v-list nav dense>
-        <v-list-item v-for="item in items" :key="item.title" :to="item.route">
+      <v-list nav dense flat>
+        <v-list-item
+          color="primary"
+          v-for="item in items"
+          :key="item.title"
+          :to="item.route"
+        >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -82,17 +87,18 @@ export default {
       ];
       if (this.userIsAuthenticated) {
         items = [
-          { title: "Profile", icon: "mdi-account", route: "/profile" },
           { title: "Ofertes", icon: "mdi-view-dashboard", route: "/ofertes" },
           { title: "Empresa", icon: "mdi-bank-outline", route: "/oferta/nova" },
+          { title: "", icon: "mdi-account", route: "/profile" },
         ];
       }
       return items;
     },
     userIsAuthenticated() {
-      return true;
-      // this.$store.getters.usuari !== null &&
-      // this.$store.getters.usuari !== undefined
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
     },
   },
   methods: {

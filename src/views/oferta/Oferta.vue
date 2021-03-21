@@ -12,7 +12,7 @@
           <v-card-title> {{ oferta.titol }} </v-card-title>
 
           <v-card-subtitle>
-            {{ oferta.data }} {{ oferta.localitzacio }}
+            {{ oferta.localitzacio }} | {{ oferta.data | formatData }}
           </v-card-subtitle>
 
           <v-card-text>
