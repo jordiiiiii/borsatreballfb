@@ -1,0 +1,107 @@
+<template>
+  <nav>
+    <!--SideBar-->
+    <v-navigation-drawer app v-model="drawer">
+      <v-list nav dense>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.route">
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="userIsAuthenticated" @click="onLogout">
+          <v-list-item-action>
+            <v-icon>mdi-exit-to-app</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <!--Header-->
+    <v-app-bar
+      app
+      absolute
+      color="white"
+      elevate-on-scroll
+      scroll-target="#scrolling-techniques-7"
+    >
+      <v-toolbar-title>
+        <router-link to="/" class="text-uppercase grey--text">
+          <span class="font-weight-light">borsa</span>
+          <span>Treball</span>
+        </router-link>
+      </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn
+          text
+          class="grey--text text--darken-1"
+          v-for="item in items"
+          :key="item.title"
+          :to="item.route"
+        >
+          <v-icon left dark>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
+        <v-btn
+          text
+          class="grey--text text--darken-1"
+          v-if="userIsAuthenticated"
+          @click="onLogout"
+        >
+          <v-icon left dark>mdi-exit-to-app</v-icon>
+          Logout
+        </v-btn>
+      </v-toolbar-items>
+
+      <v-app-bar-nav-icon
+        class="hidden-sm-and-up"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+    </v-app-bar>
+  </nav>
+</template>
+
+<script>
+export default {
+  name: "Header",
+  data: () => ({ drawer: false }),
+  computed: {
+    items() {
+      let items = [
+        { title: "Sign up", icon: "mdi-face", route: "/signup" },
+        { title: "Sign in", icon: "mdi-lock-open", route: "/signin" },
+      ];
+      if (this.userIsAuthenticated) {
+        items = [
+          { title: "Profile", icon: "mdi-account", route: "/profile" },
+          { title: "Ofertes", icon: "mdi-view-dashboard", route: "/ofertes" },
+          { title: "Empresa", icon: "mdi-bank-outline", route: "/oferta/nova" },
+        ];
+      }
+      return items;
+    },
+    userIsAuthenticated() {
+      return true;
+      // this.$store.getters.usuari !== null &&
+      // this.$store.getters.usuari !== undefined
+    },
+  },
+  methods: {
+    onLogout() {
+      alert("Has fet un Log Out");
+      // this.$store.dispatch("logout");
+    },
+  },
+};
+</script>
+
+<style scoped></style>
