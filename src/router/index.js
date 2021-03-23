@@ -4,10 +4,12 @@ import Home from "../views/Home.vue";
 import Ofertes from "@/views/oferta/Ofertes";
 import Oferta from "@/views/oferta/Oferta";
 import CrearOferta from "@/views/oferta/CrearOferta";
-import CrearOferta2 from "@/views/oferta/CrearOferta2";
 import Signup from "@/views/usuari/Signup";
 import Signin from "@/views/usuari/Signin";
 import Profile from "@/views/usuari/Profile";
+import AuthGuard from "@/router/auth-guard";
+
+import proves from "@/auxViews/proves";
 
 Vue.use(VueRouter);
 
@@ -18,33 +20,34 @@ const routes = [
     component: Home,
   },
   {
+    path: "/proves",
+    name: "proves",
+    component: proves,
+  },
+  {
     path: "/ofertes",
     name: "Ofertes",
     component: Ofertes,
+    beforeEnter: AuthGuard,
   },
   {
     path: "/ofertes/:id",
     name: "Oferta",
     props: true,
     component: Oferta,
+    beforeEnter: AuthGuard,
   },
   {
     path: "/oferta/nova",
     name: "CrearOferta",
     component: CrearOferta,
-    // beforeEnter: AuthGuard,
-  },
-  {
-    path: "/crearOferta2",
-    name: "CrearOferta2",
-    component: CrearOferta2,
-    // beforeEnter: AuthGuard,
+    beforeEnter: AuthGuard,
   },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
-    // beforeEnter: AuthGuard,
+    beforeEnter: AuthGuard,
   },
   {
     path: "/signup",

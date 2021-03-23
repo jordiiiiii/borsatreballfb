@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import meetup from "./oferta";
+import oferta from "./oferta";
 import user from "./usuari";
 import shared from "./shared";
 
@@ -12,7 +12,7 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    meetup: meetup,
+    oferta: oferta,
     user: user,
     shared: shared,
   },

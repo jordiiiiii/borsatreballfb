@@ -89,7 +89,7 @@ export default {
         items = [
           { title: "Ofertes", icon: "mdi-view-dashboard", route: "/ofertes" },
           { title: "Empresa", icon: "mdi-bank-outline", route: "/oferta/nova" },
-          { title: "", icon: "mdi-account", route: "/profile" },
+          { title: "Profile", icon: "mdi-account", route: "/profile" },
         ];
       }
       return items;
@@ -103,8 +103,8 @@ export default {
   },
   methods: {
     onLogout() {
-      alert("Has fet un Log Out");
-      // this.$store.dispatch("logout");
+      this.$store.dispatch("logout");
+      this.$router.replace("/");
     },
   },
 };

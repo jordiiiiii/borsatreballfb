@@ -78,7 +78,7 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.$router.replace("/ofertes");
+        this.$router.push("/ofertes");
       }
     },
   },

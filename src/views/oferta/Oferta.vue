@@ -21,8 +21,10 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-
-            <v-btn color="orange lighten-2" text> Registrar-se </v-btn>
+            <app-oferta-register-dialog
+              v-if="userIsAuthenticated && !userIsCreator"
+              :ofertaId="oferta.id"
+            ></app-oferta-register-dialog>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,21 +41,21 @@ export default {
     oferta() {
       return this.$store.getters.loadedOferta(this.id);
     },
-    // userIsAuthenticated() {
-    //   return (
-    //     this.$store.getters.user !== null &&
-    //     this.$store.getters.user !== undefined
-    //   );
-    // },
-    // userIsCreator() {
-    //   if (!this.userIsAuthenticated) {
-    //     return false;
-    //   }
-    //   return this.$store.getters.user.id === this.oferta.creatorId;
-    // },
-    // loading() {
-    //   return this.$store.getters.loading;
-    // },
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    },
+    userIsCreator() {
+      if (!this.userIsAuthenticated) {
+        return false;
+      }
+      return this.$store.getters.user.id === this.oferta.creatorId;
+    },
+    loading() {
+      return this.$store.getters.loading;
+    },
   },
 };
 </script>

@@ -168,21 +168,21 @@
               ></v-autocomplete>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col cols="12" sm="6" class="offset-sm-3">
-              <v-text-field
-                ref="email"
-                v-model="email"
-                :rules="[() => !!email || 'Aquest camp és obligatori']"
-                :error-messages="errorMessages"
-                label="Email"
-                name="email"
-                id="email"
-                placeholder="emailEmpresa@email.com"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <!--          <v-row>-->
+          <!--            <v-col cols="12" sm="6" class="offset-sm-3">-->
+          <!--              <v-text-field-->
+          <!--                ref="email"-->
+          <!--                v-model="email"-->
+          <!--                :rules="[() => !!email || 'Aquest camp és obligatori']"-->
+          <!--                :error-messages="errorMessages"-->
+          <!--                label="Email"-->
+          <!--                name="email"-->
+          <!--                id="email"-->
+          <!--                placeholder="emailEmpresa@email.com"-->
+          <!--                required-->
+          <!--              ></v-text-field>-->
+          <!--            </v-col>-->
+          <!--          </v-row>-->
           <v-row>
             <v-col cols="12" sm="6" class="offset-sm-3">
               <v-row>
@@ -222,6 +222,9 @@
 </template>
 
 <script>
+import firebase from "firebase/app";
+import "firebase/auth";
+
 export default {
   name: "CrearOferta",
   data() {
@@ -233,13 +236,13 @@ export default {
       localitzacio: "",
       // data: "",
       categoria: "",
-      email: "",
+      email: firebase.auth().currentUser.email,
       // imageUrl: "",
       imagesUrl: [
-        "https://cdn.vuetifyjs.com/images/cards/road.jpg",
-        "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
-        "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
-        "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+        "https://picsum.photos/id/11/500/500",
+        "https://picsum.photos/id/201/500/300",
+        "https://picsum.photos/id/366/400/300",
+        "https://picsum.photos/id/855/500/300",
       ],
       /////////////////////Antic formulari
       // value: "",
@@ -265,7 +268,7 @@ export default {
         descripcio: this.descripcio,
         localitzacio: this.localitzacio,
         categoria: this.categoria,
-        email: this.email,
+        // email: this.email,
       };
     },
   },
@@ -293,26 +296,27 @@ export default {
       });
 
       if (!this.formHasErrors) {
-        this.form["estat"] = "noaprovada";
+        this.form["email"] = this.email;
+
+        this.form["estat"] = "nopublicada";
         let avui = new Date();
         this.form["data"] =
           avui.getFullYear() +
           "-" +
-          (avui.getMonth() + 1) +
+          ("0" + (avui.getMonth() + 1)).slice(-2) +
           "-" +
-          avui.getDate();
-
+          ("0" + avui.getDate()).slice(-2);
         // this.form["data"] = new Date();
 
-        (this.form["imageUrl"] =
+        this.form["imageUrl"] =
           this.categoria === "ASIX"
             ? this.imagesUrl[0]
             : this.categoria === "DAM"
             ? this.imagesUrl[1]
             : this.categoria === "DAW"
             ? this.imagesUrl[2]
-            : this.imagesUrl[3]),
-          console.log(this.form);
+            : this.imagesUrl[3];
+
         this.$store.dispatch("createOferta", this.form);
         this.$router.replace("/ofertes");
       }

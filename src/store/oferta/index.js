@@ -1,9 +1,15 @@
+import firebase from "firebase/app";
+import "firebase/database";
+import "firebase/auth";
+import DataFromNDays from "@/composables/dateTo-nDays";
+
 export default {
   state: {
+    dateTo3Months: DataFromNDays(90),
     loadedOfertes: [
       {
         id: "-MW6Ee5777EAXaxpJcIj",
-        estat: "publicat",
+        estat: "publicada",
         empresa: "empresa1",
         titol: "titol1",
         descripcio:
@@ -16,7 +22,7 @@ export default {
       },
       {
         id: "-MW6Ee5zH35AXaxpJcIj",
-        estat: "publicat",
+        estat: "publicada",
         empresa: "empresa2",
         titol: "titol2",
         descripcio:
@@ -29,7 +35,7 @@ export default {
       },
       {
         id: "-MW6Ee57999AXaxpJcIj",
-        estat: "publicat",
+        estat: "publicada",
         empresa: "empresa3",
         titol: "titol3",
         descripcio:
@@ -42,7 +48,7 @@ export default {
       },
       {
         id: "-MWrre5zH35AXaxpJcIj",
-        estat: "publicat",
+        estat: "publicada",
         empresa: "empresa4",
         titol: "titol4",
         descripcio:
@@ -62,81 +68,84 @@ export default {
     createOferta(state, payload) {
       state.loadedOfertes.push(payload);
     },
-    updateMeetup(state, payload) {
-      const oferta = state.loadedOfertes.find((oferta) => {
-        return oferta.id === payload.id;
-      });
-      if (payload.titol) {
-        oferta.titol = payload.titol;
-      }
-      if (payload.descripcio) {
-        oferta.descripcio = payload.descripcio;
-      }
-      if (payload.data) {
-        oferta.data = payload.data;
-      }
-    },
   },
   actions: {
-    createOferta({ commit }, payload) {
+    loadOfertes({ commit, getters }) {
+      const dataFilter = getters.dataFilter;
+      commit("setLoading", true);
+      firebase
+        .database()
+        .ref("ofertes")
+        .orderByChild("data")
+        .startAt(dataFilter)
+        .once("value")
+        .then((data) => {
+          const ofertes = [];
+          const obj = data.val();
+          for (let key in obj) {
+            ofertes.push({
+              id: key,
+              estat: obj[key].estat,
+              empresa: obj[key].empresa,
+              titol: obj[key].titol,
+              descripcio: obj[key].descripcio,
+              localitzacio: obj[key].localitzacio,
+              data: obj[key].data,
+              categoria: obj[key].categoria,
+              email: obj[key].email,
+              imageUrl: obj[key].imageUrl,
+              creatorId: obj[key].creatorId,
+            });
+          }
+          commit("setLoadedOfertes", ofertes);
+          commit("setLoading", false);
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("setLoading", false);
+        });
+    },
+    createOferta({ commit, getters }, payload) {
       const oferta = {
         estat: payload.estat,
         empresa: payload.empresa,
         titol: payload.titol,
         descripcio: payload.descripcio,
-        location: payload.location,
+        localitzacio: payload.localitzacio,
         categoria: payload.categoria,
         email: payload.email,
         data: payload.data,
         imageUrl: payload.imageUrl,
-        // creatorId: getters.user.id,
+        creatorId: getters.user.id,
       };
-      commit("createOferta", oferta);
-      // let imageUrl;
-      // let key;
-      // firebase
-      //   .database()
-      //   .ref("ofertes")
-      //   .push(oferta)
-      //   .then((data) => {
-      //     key = data.key;
-      //     return key;
-      //   })
-      //   .then((key) => {
-      //     console.log(key);
-      //     const filename = payload.image.name;
-      //     const ext = filename.slice(filename.lastIndexOf("."));
-      //     return firebase
-      //       .storage()
-      //       .ref("ofertes/" + key + ext)
-      //       .put(payload.image);
-      //   })
-      //   .then((fileData) => {
-      //     return fileData.ref.getDownloadURL().then((imageURL) => {
-      //       return firebase
-      //         .database()
-      //         .ref("ofertes")
-      //         .child(key)
-      //         .update({ imageUrl: imageURL });
-      //     });
-      //   })
-      //   .then(() => {
-      //     commit("createOferta", {
-      //       ...oferta,
-      //       imageUrl: imageUrl,
-      //       id: key,
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      firebase
+        .database()
+        .ref("ofertes")
+        .push(oferta)
+        .then((data) => {
+          const key = data.key;
+          commit("createOferta", {
+            ...oferta,
+            id: key,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   getters: {
     loadedOfertes(state) {
-      return state.loadedOfertes.sort((ofertaA, ofertaB) => {
-        return ofertaA.data < ofertaB.data ? 1 : -1;
-      });
+      return state.loadedOfertes
+        .filter((db) => {
+          return db.estat == "publicada";
+        })
+        .sort((ofertaA, ofertaB) => {
+          return ofertaA.data < ofertaB.data ? 1 : -1;
+        });
+    },
+    featuredOfertes(state, getters) {
+      return getters.loadedOfertes.slice(0, 5);
     },
     loadedOferta(state) {
       return (ofertaId) => {
@@ -145,8 +154,8 @@ export default {
         });
       };
     },
-    featuredOfertes(state, getters) {
-      return getters.loadedOfertes.slice(0, 5);
+    dataFilter(state) {
+      return state.dateTo3Months;
     },
   },
 };

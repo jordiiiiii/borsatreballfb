@@ -7,13 +7,18 @@ import store from "./store";
 // styles
 import vuetify from "./plugins/vuetify";
 import "./assets/main.css";
-// filters
+// filters & alerts & dialogs
 import DateFilter from "./composables/dateFilter";
+import AlertComponent from "./components/shared/Alert";
+import RegisterDialog from "./components/registration/RegisterDialog";
 
 Vue.config.productionTip = false;
-
+// filters & alerts & dialogs
 Vue.filter("formatData", DateFilter);
+Vue.component("app-alert", AlertComponent);
+Vue.component("app-oferta-register-dialog", RegisterDialog);
 
+// Inialitzar Firebase
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -41,6 +46,6 @@ new Vue({
         this.$store.dispatch("fetchUserData");
       }
     });
-    // this.$store.dispatch("loadOfertes");
+    this.$store.dispatch("loadOfertes");
   },
 }).$mount("#app");
