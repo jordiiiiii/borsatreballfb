@@ -13,12 +13,13 @@ import AlertComponent from "./components/shared/Alert";
 import RegisterDialog from "./components/registration/RegisterDialog";
 
 Vue.config.productionTip = false;
+
 // filters & alerts & dialogs
 Vue.filter("formatData", DateFilter);
 Vue.component("app-alert", AlertComponent);
 Vue.component("app-oferta-register-dialog", RegisterDialog);
 
-// Inialitzar Firebase
+// inicialitzar Firebase
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {

@@ -36,9 +36,9 @@
             transition="fade-transition"
           >
             <v-row class="fill-height" align="end" justify="center">
-              <!--                title-->
+              <!--title-->
               <div class="display-1 mb-10">
-                {{ oferta.titol }}
+                {{ oferta.titol }} - {{ oferta.categoria }}
               </div>
             </v-row>
           </v-carousel-item>

@@ -32,7 +32,9 @@
 
           <v-card-title v-text="oferta.titol"></v-card-title>
 
-          <v-card-subtitle> {{ oferta.localitzacio }} </v-card-subtitle>
+          <v-card-subtitle>
+            {{ oferta.localitzacio }} - {{ oferta.data }} - {{ oferta.empresa }}
+          </v-card-subtitle>
 
           <v-card-actions>
             <v-btn color="orange lighten-2" text :to="'/ofertes/' + oferta.id">
@@ -125,6 +127,7 @@ export default {
   },
   created() {
     this.dataFilter = DataFromNDays(15);
+    this.$store.getters.loadedEmpreses;
   },
 };
 </script>

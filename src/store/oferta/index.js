@@ -2,10 +2,31 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/auth";
 import DataFromNDays from "@/composables/dateTo-nDays";
+// axios
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+Vue.use(VueAxios, axios);
 
 export default {
   state: {
+    categories: ["ASIX", "DAM", "DAW", "SMX"],
     dateTo3Months: DataFromNDays(90),
+    loadedEmpreses: {
+      id: 1,
+      usuari_id: 9,
+      nom: "empresa1",
+      tipus: "titol1",
+      logo: "2019-03-11",
+      correu: "empresa1@mail.com",
+    },
+    loadedImatges: {
+      ASIX: "https://picsum.photos/id/11/500/500",
+      DAM: "https://picsum.photos/id/201/500/300",
+      DAW: "https://picsum.photos/id/366/400/300",
+      SMX: "https://picsum.photos/id/855/500/300",
+    },
     loadedOfertes: [
       {
         id: "-MW6Ee5777EAXaxpJcIj",
@@ -65,38 +86,70 @@ export default {
     setLoadedOfertes(state, payload) {
       state.loadedOfertes = payload;
     },
+    setLoadedEmpreses(state, payload) {
+      state.loadedEmpreses = payload;
+    },
     createOferta(state, payload) {
       state.loadedOfertes.push(payload);
     },
   },
   actions: {
-    loadOfertes({ commit, getters }) {
-      const dataFilter = getters.dataFilter;
-      commit("setLoading", true);
-      firebase
-        .database()
-        .ref("ofertes")
-        .orderByChild("data")
-        .startAt(dataFilter)
-        .once("value")
-        .then((data) => {
-          const ofertes = [];
-          const obj = data.val();
+    loadedEmpreses({ commit }) {
+      Vue.axios
+        .get(
+          `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/empresa/`
+        )
+        .then((response) => {
+          console.log(response.data.records);
+          const empreses = [];
+          const obj = response.data.records;
           for (let key in obj) {
-            ofertes.push({
-              id: key,
-              estat: obj[key].estat,
-              empresa: obj[key].empresa,
-              titol: obj[key].titol,
-              descripcio: obj[key].descripcio,
-              localitzacio: obj[key].localitzacio,
-              data: obj[key].data,
-              categoria: obj[key].categoria,
-              email: obj[key].email,
-              imageUrl: obj[key].imageUrl,
-              creatorId: obj[key].creatorId,
+            empreses.push({
+              id: obj[key].id,
+              usuari_id: obj[key].usuari_id,
+              nom: obj[key].nom,
+              tipus: obj[key].tipus,
+              logo: obj[key].logo,
+              correu: obj[key].correu,
             });
           }
+          console.log(empreses);
+          commit("setLoadedEmpreses", empreses);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loadOfertes({ commit, getters }) {
+      const dataFilter = getters.dataFilter;
+      const loadedImatges = getters.loadedImatges;
+      commit("setLoading", true);
+      console.log(dataFilter);
+      Vue.axios
+        .get(
+          `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/oferta?filter=data_publicacio,ge,${dataFilter}&join=empresa_id,empresa&join=categoria_id,categoria`
+        )
+        .then((response) => {
+          console.log(response.data.records);
+          const ofertes = [];
+          const obj = response.data.records;
+          for (let key in obj) {
+            let img = obj[key].categoria_id.descripcio;
+            ofertes.push({
+              id: obj[key].id,
+              estat: obj[key].estat,
+              empresa: obj[key].empresa_id.nom,
+              titol: obj[key].titol,
+              descripcio: obj[key].descripcio,
+              localitzacio: obj[key].ubicacio,
+              data: obj[key].data_publicacio,
+              categoria: obj[key].categoria_id.descripcio,
+              email: obj[key].empresa_id.correu,
+              imageUrl: loadedImatges[img],
+              creatorId: obj[key].empresa_id,
+            });
+          }
+          console.log(ofertes);
           commit("setLoadedOfertes", ofertes);
           commit("setLoading", false);
         })
@@ -105,6 +158,41 @@ export default {
           commit("setLoading", false);
         });
     },
+    // loadOfertes({ commit, getters }) {
+    //   const dataFilter = getters.dataFilter;
+    //   commit("setLoading", true);
+    //   firebase
+    //     .database()
+    //     .ref("ofertes")
+    //     .orderByChild("data")
+    //     .startAt(dataFilter)
+    //     .once("value")
+    //     .then((data) => {
+    //       const ofertes = [];
+    //       const obj = data.val();
+    //       for (let key in obj) {
+    //         ofertes.push({
+    //           id: key,
+    //           estat: obj[key].estat,
+    //           empresa: obj[key].empresa,
+    //           titol: obj[key].titol,
+    //           descripcio: obj[key].descripcio,
+    //           localitzacio: obj[key].localitzacio,
+    //           data: obj[key].data,
+    //           categoria: obj[key].categoria,
+    //           email: obj[key].email,
+    //           imageUrl: obj[key].imageUrl,
+    //           creatorId: obj[key].creatorId,
+    //         });
+    //       }
+    //       commit("setLoadedOfertes", ofertes);
+    //       commit("setLoading", false);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       commit("setLoading", false);
+    //     });
+    // },
     createOferta({ commit, getters }, payload) {
       const oferta = {
         estat: payload.estat,
@@ -138,7 +226,7 @@ export default {
     loadedOfertes(state) {
       return state.loadedOfertes
         .filter((db) => {
-          return db.estat == "publicada";
+          return db.estat == 1;
         })
         .sort((ofertaA, ofertaB) => {
           return ofertaA.data < ofertaB.data ? 1 : -1;
@@ -150,9 +238,15 @@ export default {
     loadedOferta(state) {
       return (ofertaId) => {
         return state.loadedOfertes.find((oferta) => {
-          return oferta.id === ofertaId;
+          return oferta.id == ofertaId;
         });
       };
+    },
+    loadedEmpreses(state) {
+      return state.loadedEmpreses;
+    },
+    loadedImatges(state) {
+      return state.loadedImatges;
     },
     dataFilter(state) {
       return state.dateTo3Months;
