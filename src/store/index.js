@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import categoria from "./categoria";
+import empresa from "./empresa";
 import oferta from "./oferta";
 import user from "./usuari";
 import shared from "./shared";
@@ -12,6 +14,8 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
+    categoria: categoria,
+    empresa: empresa,
     oferta: oferta,
     user: user,
     shared: shared,

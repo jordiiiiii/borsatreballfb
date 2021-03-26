@@ -73,24 +73,14 @@
             all
           </v-btn>
         </v-row>
-        <v-row class="mb-2">
-          <v-btn fab small color="cyan accent-2" @click="changeFilter('ASIX')">
-            asix
-          </v-btn>
-        </v-row>
-        <v-row class="mb-2">
-          <v-btn fab small color="cyan accent-2" @click="changeFilter('DAM')">
-            dam
-          </v-btn>
-        </v-row>
-        <v-row class="mb-2">
-          <v-btn fab small color="cyan accent-2" @click="changeFilter('DAW')">
-            daw
-          </v-btn>
-        </v-row>
-        <v-row class="mb-2">
-          <v-btn fab small color="cyan accent-2" @click="changeFilter('SMX')">
-            smx
+        <v-row class="mb-2" v-for="categoria in categories" :key="categoria.id">
+          <v-btn
+            fab
+            small
+            color="cyan accent-2"
+            @click="changeFilter(categoria.descripcio)"
+          >
+            {{ categoria.descripcio }}
           </v-btn>
         </v-row>
       </v-col>
@@ -110,6 +100,9 @@ export default {
     dataFilter: new Date(),
   }),
   computed: {
+    categories() {
+      return this.$store.getters.loadedCategories;
+    },
     ofertes() {
       return this.$store.getters.loadedOfertes;
     },

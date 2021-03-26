@@ -11,16 +11,17 @@ Vue.use(VueAxios, axios);
 
 export default {
   state: {
-    categories: ["ASIX", "DAM", "DAW", "SMX"],
     dateTo3Months: DataFromNDays(90),
-    loadedEmpreses: {
-      id: 1,
-      usuari_id: 9,
-      nom: "empresa1",
-      tipus: "titol1",
-      logo: "2019-03-11",
-      correu: "empresa1@mail.com",
-    },
+    loadedEmpreses: [
+      {
+        id: 1,
+        usuari_id: 9,
+        nom: "empresa1",
+        tipus: "titol1",
+        logo: "2019-03-11",
+        correu: "empresa1@mail.com",
+      },
+    ],
     loadedImatges: {
       ASIX: "https://picsum.photos/id/11/500/500",
       DAM: "https://picsum.photos/id/201/500/300",
@@ -86,40 +87,11 @@ export default {
     setLoadedOfertes(state, payload) {
       state.loadedOfertes = payload;
     },
-    setLoadedEmpreses(state, payload) {
-      state.loadedEmpreses = payload;
-    },
     createOferta(state, payload) {
       state.loadedOfertes.push(payload);
     },
   },
   actions: {
-    loadedEmpreses({ commit }) {
-      Vue.axios
-        .get(
-          `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/empresa/`
-        )
-        .then((response) => {
-          console.log(response.data.records);
-          const empreses = [];
-          const obj = response.data.records;
-          for (let key in obj) {
-            empreses.push({
-              id: obj[key].id,
-              usuari_id: obj[key].usuari_id,
-              nom: obj[key].nom,
-              tipus: obj[key].tipus,
-              logo: obj[key].logo,
-              correu: obj[key].correu,
-            });
-          }
-          console.log(empreses);
-          commit("setLoadedEmpreses", empreses);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     loadOfertes({ commit, getters }) {
       const dataFilter = getters.dataFilter;
       const loadedImatges = getters.loadedImatges;
@@ -241,9 +213,6 @@ export default {
           return oferta.id == ofertaId;
         });
       };
-    },
-    loadedEmpreses(state) {
-      return state.loadedEmpreses;
     },
     loadedImatges(state) {
       return state.loadedImatges;

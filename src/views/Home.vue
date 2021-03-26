@@ -50,16 +50,26 @@
       <v-col cols="12" sm="6" class="text-center text-sm-right">
         <v-btn width="112" @click="inici = false">Usuari</v-btn>
       </v-col>
+      <!--      <v-col cols="12" sm="6" class="text-center text-sm-left">-->
+      <!--        <v-btn width="112" to="/oferta/nova">Empresa</v-btn>-->
+      <!--      </v-col>-->
       <v-col cols="12" sm="6" class="text-center text-sm-left">
-        <v-btn width="112" to="/oferta/nova">Empresa</v-btn>
+        <v-btn width="112" href="http://localhost:8000/whatever" target="_blank"
+          >Empresa</v-btn
+        >
       </v-col>
     </v-row>
     <v-row class="mt-6" v-else>
       <v-col cols="12" sm="6" class="text-center text-sm-right">
         <v-btn width="112" to="/signin">Sign in</v-btn>
       </v-col>
+      <!--      <v-col cols="12" sm="6" class="text-center text-sm-left">-->
+      <!--        <v-btn width="112" to="/signup">Sign up</v-btn>-->
+      <!--      </v-col>-->
       <v-col cols="12" sm="6" class="text-center text-sm-left">
-        <v-btn width="112" to="/signup">Sign up</v-btn>
+        <v-btn width="112" href="http://localhost:8000/whatever" target="_blank"
+          >Sign up</v-btn
+        >
       </v-col>
     </v-row>
     <!--Ofertes registrades-->

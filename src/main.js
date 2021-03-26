@@ -47,6 +47,8 @@ new Vue({
         this.$store.dispatch("fetchUserData");
       }
     });
+    this.$store.dispatch("loadCategories");
+    this.$store.dispatch("loadEmpreses");
     this.$store.dispatch("loadOfertes");
   },
 }).$mount("#app");
