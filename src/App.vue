@@ -14,12 +14,6 @@
             <router-view></router-view>
           </v-container>
         </v-main>
-        <!--Footer-->
-        <!--        <v-footer padless class="transparent">-->
-        <!--          <v-col class="grey&#45;&#45;text text&#45;&#45;lighten-1 text-center" cols="12">-->
-        <!--            {{ new Date().getFullYear() }} — Alex-Arnau-Jordi-Rafa-->
-        <!--          </v-col>-->
-        <!--        </v-footer>-->
       </v-sheet>
     </v-card>
   </v-app>

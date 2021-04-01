@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Ofertes from "@/views/oferta/Ofertes";
 import Oferta from "@/views/oferta/Oferta";
-import CrearOferta from "@/views/oferta/CrearOferta";
 import Signup from "@/views/usuari/Signup";
 import Signin from "@/views/usuari/Signin";
 import Profile from "@/views/usuari/Profile";
@@ -35,12 +34,6 @@ const routes = [
     name: "Oferta",
     props: true,
     component: Oferta,
-    beforeEnter: AuthGuard,
-  },
-  {
-    path: "/oferta/nova",
-    name: "CrearOferta",
-    component: CrearOferta,
     beforeEnter: AuthGuard,
   },
   {

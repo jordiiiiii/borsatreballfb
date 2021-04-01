@@ -130,41 +130,6 @@ export default {
           commit("setLoading", false);
         });
     },
-    // loadOfertes({ commit, getters }) {
-    //   const dataFilter = getters.dataFilter;
-    //   commit("setLoading", true);
-    //   firebase
-    //     .database()
-    //     .ref("ofertes")
-    //     .orderByChild("data")
-    //     .startAt(dataFilter)
-    //     .once("value")
-    //     .then((data) => {
-    //       const ofertes = [];
-    //       const obj = data.val();
-    //       for (let key in obj) {
-    //         ofertes.push({
-    //           id: key,
-    //           estat: obj[key].estat,
-    //           empresa: obj[key].empresa,
-    //           titol: obj[key].titol,
-    //           descripcio: obj[key].descripcio,
-    //           localitzacio: obj[key].localitzacio,
-    //           data: obj[key].data,
-    //           categoria: obj[key].categoria,
-    //           email: obj[key].email,
-    //           imageUrl: obj[key].imageUrl,
-    //           creatorId: obj[key].creatorId,
-    //         });
-    //       }
-    //       commit("setLoadedOfertes", ofertes);
-    //       commit("setLoading", false);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       commit("setLoading", false);
-    //     });
-    // },
     createOferta({ commit, getters }, payload) {
       const oferta = {
         estat: payload.estat,

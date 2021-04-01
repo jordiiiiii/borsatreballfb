@@ -8,6 +8,7 @@
           v-for="item in items"
           :key="item.title"
           :to="item.route"
+          :href="item.href"
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -17,6 +18,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item v-if="userIsAuthenticated" @click="onLogout">
           <v-list-item-action>
             <v-icon>mdi-exit-to-app</v-icon>
@@ -52,10 +54,12 @@
           v-for="item in items"
           :key="item.title"
           :to="item.route"
+          :href="item.href"
         >
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+
         <v-btn
           text
           class="grey--text text--darken-1"
@@ -82,13 +86,29 @@ export default {
   computed: {
     items() {
       let items = [
-        { title: "Sign up", icon: "mdi-face", route: "/signup" },
-        { title: "Sign in", icon: "mdi-lock-open", route: "/signin" },
+        {
+          title: "Empresa",
+          icon: "mdi-bank-outline",
+          route: "",
+          href: "http://localhost:8001",
+        },
+        {
+          title: "Sign up",
+          icon: "mdi-face",
+          route: "",
+          href: "http://localhost:8001/register",
+        },
+        {
+          title: "Sign in",
+          icon: "mdi-lock-open",
+          route: "/signin",
+          href: "",
+        },
       ];
       if (this.userIsAuthenticated) {
         items = [
           { title: "Ofertes", icon: "mdi-view-dashboard", route: "/ofertes" },
-          { title: "Empresa", icon: "mdi-bank-outline", route: "/oferta/nova" },
+          // { title: "Empresa", icon: "mdi-bank-outline", route: "/oferta/nova" },
           { title: "Profile", icon: "mdi-account", route: "/profile" },
         ];
       }

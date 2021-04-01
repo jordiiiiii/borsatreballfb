@@ -90,6 +90,8 @@
 
 <script>
 import DataFromNDays from "@/composables/dateTo-nDays";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   name: "Ofertes",
@@ -98,6 +100,7 @@ export default {
     toggle_exclusive: undefined,
     ofertFilter: "ALL",
     dataFilter: new Date(),
+    correu: firebase.auth().currentUser.uid,
   }),
   computed: {
     categories() {
@@ -121,6 +124,7 @@ export default {
   created() {
     this.dataFilter = DataFromNDays(15);
     this.$store.getters.loadedEmpreses;
+    console.log(this.correu);
   },
 };
 </script>
