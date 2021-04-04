@@ -8,8 +8,6 @@ import Signin from "@/views/usuari/Signin";
 import Profile from "@/views/usuari/Profile";
 import AuthGuard from "@/router/auth-guard";
 
-import proves from "@/auxViews/proves";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,11 +15,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-  },
-  {
-    path: "/proves",
-    name: "proves",
-    component: proves,
   },
   {
     path: "/ofertes",

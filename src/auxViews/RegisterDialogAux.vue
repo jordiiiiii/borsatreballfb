@@ -45,12 +45,11 @@
 
 <script>
 export default {
-  name: "RegisterDialog",
+  name: "RegisterDialogAux",
   props: ["ofertaId"],
   data() {
     return {
       registerDialog: false,
-      ip: "",
     };
   },
   computed: {
@@ -67,18 +66,10 @@ export default {
       if (this.userIsRegistered) {
         this.$store.dispatch("unregisterUserFromOferta", this.ofertaId);
       } else {
-        // this.direccioIp();
         this.$store.dispatch("registerUserForOferta", this.ofertaId);
       }
       this.registerDialog = false;
     },
-    // async direccioIp() {
-    //   fetch("https://api.ipify.org/?format=json")
-    //     .then((results) => results.json())
-    //     // .then((data) => (this.ip = data.ip))
-    //     .then(({ ip }) => (this.ip = ip))
-    //     .then(() => console.log(this.ip));
-    // },
   },
 };
 </script>

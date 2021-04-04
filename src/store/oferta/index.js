@@ -1,6 +1,3 @@
-import firebase from "firebase/app";
-import "firebase/database";
-import "firebase/auth";
 import DataFromNDays from "@/composables/dateTo-nDays";
 // axios
 import Vue from "vue";
@@ -87,9 +84,6 @@ export default {
     setLoadedOfertes(state, payload) {
       state.loadedOfertes = payload;
     },
-    createOferta(state, payload) {
-      state.loadedOfertes.push(payload);
-    },
   },
   actions: {
     loadOfertes({ commit, getters }) {
@@ -102,7 +96,6 @@ export default {
           `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/oferta?filter=data_publicacio,ge,${dataFilter}&join=empresa_id,empresa&join=categoria_id,categoria`
         )
         .then((response) => {
-          console.log(response.data.records);
           const ofertes = [];
           const obj = response.data.records;
           for (let key in obj) {
@@ -121,41 +114,12 @@ export default {
               creatorId: obj[key].empresa_id,
             });
           }
-          console.log(ofertes);
           commit("setLoadedOfertes", ofertes);
           commit("setLoading", false);
         })
         .catch((error) => {
           console.log(error);
           commit("setLoading", false);
-        });
-    },
-    createOferta({ commit, getters }, payload) {
-      const oferta = {
-        estat: payload.estat,
-        empresa: payload.empresa,
-        titol: payload.titol,
-        descripcio: payload.descripcio,
-        localitzacio: payload.localitzacio,
-        categoria: payload.categoria,
-        email: payload.email,
-        data: payload.data,
-        imageUrl: payload.imageUrl,
-        creatorId: getters.user.id,
-      };
-      firebase
-        .database()
-        .ref("ofertes")
-        .push(oferta)
-        .then((data) => {
-          const key = data.key;
-          commit("createOferta", {
-            ...oferta,
-            id: key,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
         });
     },
   },

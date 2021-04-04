@@ -31,7 +31,6 @@ export default {
           `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/empresa/`
         )
         .then((response) => {
-          console.log(response.data.records);
           const empreses = [];
           const obj = response.data.records;
           for (let key in obj) {
@@ -44,7 +43,6 @@ export default {
               correu: obj[key].correu,
             });
           }
-          console.log(empreses);
           commit("setLoadedEmpreses", empreses);
           commit("setLoading", false);
         })

@@ -51,7 +51,16 @@
             <v-divider class="my-2"></v-divider>
             <v-icon class="mr-2" small> mdi-clock </v-icon>
             <span class="caption grey--text font-weight-light">
-              registres dels últims 3 mesos
+              l'última oferta registrada de {{ categoria.cat }} va ser el
+              {{
+                categoria.cat == "ASIX"
+                  ? lastOfertaASIX
+                  : categoria.cat == "DAM"
+                  ? lastOfertaDAM
+                  : categoria.cat == "DAW"
+                  ? lastOfertaDAW
+                  : lastOfertaSMX
+              }}.
             </span>
           </v-card-text>
         </v-card>
@@ -78,6 +87,30 @@ export default {
     ],
   }),
   computed: {
+    lastOfertaASIX() {
+      let ofertaASIX = this.ofertes
+        .filter((data) => data.categoria == "ASIX")
+        .map((data) => data.data);
+      return ofertaASIX[0];
+    },
+    lastOfertaDAM() {
+      let ofertaASIX = this.ofertes
+        .filter((data) => data.categoria == "DAM")
+        .map((data) => data.data);
+      return ofertaASIX[0];
+    },
+    lastOfertaDAW() {
+      let ofertaASIX = this.ofertes
+        .filter((data) => data.categoria == "DAW")
+        .map((data) => data.data);
+      return ofertaASIX[0];
+    },
+    lastOfertaSMX() {
+      let ofertaASIX = this.ofertes
+        .filter((data) => data.categoria == "SMX")
+        .map((data) => data.data);
+      return ofertaASIX[0];
+    },
     ofertes() {
       return this.$store.getters.loadedOfertes;
     },

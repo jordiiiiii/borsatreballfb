@@ -39,7 +39,24 @@
       scroll-target="#scrolling-techniques-7"
     >
       <v-toolbar-title>
-        <router-link to="/" class="text-uppercase grey--text">
+        <router-link
+          to="/"
+          custom
+          v-slot="{ navigate }"
+          style="cursor: pointer"
+        >
+          <img
+            @click="navigate"
+            @keypress.enter="navigate"
+            role="link"
+            alt="Vuetify Logo"
+            class="shrink mt-2 mr-4 hidden-sm-and-up"
+            src="../assets/logo.svg"
+            width="32"
+          />
+        </router-link>
+
+        <router-link to="/" class="text-uppercase grey--text hidden-xs-only">
           <span class="font-weight-light">borsa</span>
           <span>Treball</span>
         </router-link>
@@ -90,13 +107,13 @@ export default {
           title: "Empresa",
           icon: "mdi-bank-outline",
           route: "",
-          href: "http://localhost:8001",
+          href: "http://cryptic-springs-68672.herokuapp.com",
         },
         {
           title: "Sign up",
           icon: "mdi-face",
           route: "",
-          href: "http://localhost:8001/register",
+          href: "http://cryptic-springs-68672.herokuapp.com/register",
         },
         {
           title: "Sign in",

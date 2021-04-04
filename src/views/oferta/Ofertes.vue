@@ -9,7 +9,7 @@
         :key="oferta.id"
       >
         <v-card max-width="344">
-          <!--<v-card class="mx-auto" max-width="344">-->
+          <!--        <v-card class="mx-auto" max-width="344">-->
           <v-img :src="oferta.imageUrl" height="150px">
             <div class="ma-2">
               {{ oferta.categoria }}
@@ -124,7 +124,6 @@ export default {
   created() {
     this.dataFilter = DataFromNDays(15);
     this.$store.getters.loadedEmpreses;
-    console.log(this.correu);
   },
 };
 </script>

@@ -39,7 +39,6 @@ export default {
           `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/categoria/`
         )
         .then((response) => {
-          console.log(response.data.records);
           const categories = [];
           const obj = response.data.records;
           for (let key in obj) {
@@ -48,7 +47,6 @@ export default {
               descripcio: obj[key].descripcio,
             });
           }
-          console.log(categories);
           commit("setLoadedCategories", categories);
           commit("setLoading", false);
         })

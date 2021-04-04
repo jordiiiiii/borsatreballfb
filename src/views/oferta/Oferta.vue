@@ -21,13 +21,11 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
+
             <app-oferta-register-dialog
+              v-if="userIsAuthenticated"
               :ofertaId="oferta.id"
             ></app-oferta-register-dialog>
-            <!--            <app-oferta-register-dialog-->
-            <!--                v-if="userIsAuthenticated && !userIsCreator"-->
-            <!--                :ofertaId="oferta.id"-->
-            <!--            ></app-oferta-register-dialog>-->
           </v-card-actions>
         </v-card>
       </v-col>
@@ -44,20 +42,19 @@ export default {
     oferta() {
       return this.$store.getters.loadedOferta(this.id);
     },
-    // userIsAuthenticated() {
-    //   return (
-    //     this.$store.getters.user !== null &&
-    //     this.$store.getters.user !== undefined
-    //   );
-    // },
-    // userIsCreator() {
-    //   if (!this.userIsAuthenticated) {
-    //     return false;
-    //   }
-    //   return this.$store.getters.user.id == this.oferta.creatorId;
-    // },
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    },
     loading() {
       return this.$store.getters.loading;
+    },
+  },
+  methods: {
+    enviar() {
+      console.log("yoyo");
     },
   },
 };
