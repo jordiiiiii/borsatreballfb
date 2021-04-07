@@ -5,6 +5,7 @@ import "firebase/auth";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+// import Api from "@/service/api";
 
 Vue.use(VueAxios, axios);
 
@@ -269,6 +270,55 @@ export default {
               console.log(error);
               commit("setLoading", false);
             });
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("setLoading", false);
+        });
+    },
+    trackUsers() {
+      fetch("https://api.ipify.org/?format=json")
+        .then((results) => results.json())
+        .then(({ ip }) => {
+          const direccioIp = ip;
+          const track = {
+            ip: direccioIp,
+            data: new Date(),
+          };
+          Vue.axios
+            .post(
+              `http://labs.iam.cat/~a18jorgornei/projecte3/back/api.php/records/track`,
+              track
+            )
+            .then(() => {
+              console.log("tracked!!!");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    sendEmal({ commit, getters }) {
+      commit("setLoading", true);
+      Vue.axios({
+        method: "post",
+        url: "http://cryptic-springs-68672.herokuapp.com/email",
+        // url: "http://127.0.0.1:8000/email",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          email: getters.user.email,
+          missatge: "yoyo",
+        },
+      })
+        .then((data) => {
+          console.log(data);
+          commit("setLoading", false);
         })
         .catch((error) => {
           console.log(error);

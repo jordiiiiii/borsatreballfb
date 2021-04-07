@@ -20,6 +20,7 @@
           </v-card-text>
 
           <v-card-actions>
+            <!--            <v-btn @click="enviar">mail</v-btn>-->
             <v-spacer></v-spacer>
 
             <app-oferta-register-dialog
@@ -53,9 +54,10 @@ export default {
     },
   },
   methods: {
-    enviar() {
-      console.log("yoyo");
-    },
+    // enviar() {
+    //   console.log("yoyo");
+    //   this.$store.dispatch("sendEmal");
+    // },
   },
 };
 </script>

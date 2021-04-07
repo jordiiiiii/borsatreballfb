@@ -50,5 +50,6 @@ new Vue({
     this.$store.dispatch("loadCategories");
     this.$store.dispatch("loadEmpreses");
     this.$store.dispatch("loadOfertes");
+    // this.$store.dispatch("trackUsers");
   },
 }).$mount("#app");
