@@ -72,13 +72,6 @@ export default {
       }
       this.registerDialog = false;
     },
-    // async direccioIp() {
-    //   fetch("https://api.ipify.org/?format=json")
-    //     .then((results) => results.json())
-    //     // .then((data) => (this.ip = data.ip))
-    //     .then(({ ip }) => (this.ip = ip))
-    //     .then(() => console.log(this.ip));
-    // },
   },
 };
 </script>

@@ -306,7 +306,6 @@ export default {
       Vue.axios({
         method: "post",
         url: "http://cryptic-springs-68672.herokuapp.com/email",
-        // url: "http://127.0.0.1:8000/email",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
