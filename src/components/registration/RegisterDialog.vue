@@ -67,7 +67,6 @@ export default {
       if (this.userIsRegistered) {
         this.$store.dispatch("unregisterUserFromOferta", this.ofertaId);
       } else {
-        // this.direccioIp();
         this.$store.dispatch("registerUserForOferta", this.ofertaId);
       }
       this.registerDialog = false;
