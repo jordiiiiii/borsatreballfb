@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Ofertes from "@/views/oferta/Ofertes";
 import Oferta from "@/views/oferta/Oferta";
-import Signup from "@/views/usuari/Signup";
+import Signup from "@/auxViews/Signup";
 import Signin from "@/views/usuari/Signin";
 import Profile from "@/views/usuari/Profile";
 import AuthGuard from "@/router/auth-guard";

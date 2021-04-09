@@ -12,6 +12,18 @@
         <v-main>
           <v-container fluid>
             <router-view></router-view>
+            <v-btn
+              fab
+              small
+              text
+              fixed
+              right
+              bottom
+              @click="$router.go(-1)"
+              class="hidden-xs-only"
+            >
+              <v-icon color="orange">mdi-arrow-left</v-icon>
+            </v-btn>
           </v-container>
         </v-main>
       </v-sheet>
